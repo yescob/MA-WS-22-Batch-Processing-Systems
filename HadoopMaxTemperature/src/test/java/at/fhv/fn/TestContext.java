@@ -11,19 +11,19 @@ public enum TestContext {
     INSTANCE;
 
     private String mapInputFileName() {
-        return "/maxtemperaturetest-input.txt";
+        return "/maxTemperature/maxtemperaturetest-input.txt";
     }
 
     private String reduceInputFileName() {
-        return "/maxtemperaturetest-reducer-input.txt";
+        return "/maxTemperature/maxtemperaturetest-reducer-input.txt";
     }
 
     private String mapOutputFileName() {
-        return "/maxtemperaturetest-mapper-output.txt";
+        return "/maxTemperature/maxtemperaturetest-mapper-output.txt";
     }
 
     private String reduceOutputFileName() {
-        return "/maxtemperaturetest-reducer-output.txt";
+        return "/maxTemperature/maxtemperaturetest-reducer-output.txt";
     }
 
     private List<Pair<Text,IntWritable>> getOutput(String fileName){
@@ -54,24 +54,23 @@ public enum TestContext {
         return getOutput(mapOutputFileName());
     }
 
-    public List<Pair<Text,IntWritable>> reduceInput() {
+    public List<Pair<Text,List<IntWritable>>> reduceInput() {
         Scanner scanner = new Scanner(TestContext.class.getResourceAsStream(reduceInputFileName()));
 
-        List<Pair<Text, IntWritable>> result = new ArrayList<>();
+        List<Pair<Text, List<IntWritable>>> result = new ArrayList<>();
 
         while(scanner.hasNext()){
             String keyValue[] = scanner.nextLine().split(",");
 
             String year = keyValue[0];
 
-            List<IntWritable> values = new ArrayList<>();
-            Integer maxTemperatue = Integer.parseInt(keyValue[1]);
-            for (int i = 2; i < keyValue.length; i++) {
-                if(maxTemperatue < Integer.parseInt(keyValue[i]) ){
-                    maxTemperatue = Integer.parseInt(keyValue[i]);
-                }
+            List<IntWritable> temperatures = new ArrayList<>();
+            for (int i = 1; i < keyValue.length; i++) {
+                String temperature = keyValue[i];
+                temperatures.add(new IntWritable(Integer.parseInt(temperature)));
             }
-            result.add(new Pair<>(new Text(year), new IntWritable(maxTemperatue)));
+
+            result.add(new Pair<>(new Text(year), temperatures));
         }
         return result;
     }

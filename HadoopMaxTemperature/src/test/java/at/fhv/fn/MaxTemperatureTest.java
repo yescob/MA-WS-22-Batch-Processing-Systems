@@ -54,7 +54,7 @@ public class MaxTemperatureTest {
     @Test
     public void testReduce() throws Exception {
         //Add inputs
-        reduceDriver.addAllOutput(tc.reduceInput());
+        reduceDriver.addAll(tc.reduceInput());
 
         //Add expected outputs for the test
         reduceDriver.withAllOutput(tc.expectedReduceOutput());
