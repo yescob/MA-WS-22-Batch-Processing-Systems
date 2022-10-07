@@ -1,4 +1,4 @@
-package at.fhv.fn;
+package at.fhv.fn.drivers;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -11,6 +11,9 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+
+import at.fhv.fn.maxtemperature.MaxTemperatureReducer;
+import at.fhv.fn.maxtemperature.TemperatureRecordMapper;
 
 
 /**
