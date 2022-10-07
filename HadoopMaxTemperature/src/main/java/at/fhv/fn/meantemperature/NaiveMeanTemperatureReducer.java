@@ -1,4 +1,4 @@
-package at.fhv.fn.naivemeantemperature;
+package at.fhv.fn.meantemperature;
 
 import java.io.IOException;
 

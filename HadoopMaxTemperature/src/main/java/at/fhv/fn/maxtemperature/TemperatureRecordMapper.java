@@ -1,4 +1,4 @@
-package at.fhv.fn;
+package at.fhv.fn.maxtemperature;
 
 import java.io.IOException;
 

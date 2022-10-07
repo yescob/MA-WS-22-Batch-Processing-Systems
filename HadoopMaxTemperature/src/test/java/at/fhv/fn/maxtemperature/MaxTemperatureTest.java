@@ -1,4 +1,4 @@
-package at.fhv.fn;
+package at.fhv.fn.maxtemperature;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -10,6 +10,9 @@ import org.apache.hadoop.mrunit.mapreduce.MapReduceDriver;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 import org.junit.Before;
 import org.junit.Test;
+
+import at.fhv.fn.maxtemperature.MaxTemperatureReducer;
+import at.fhv.fn.maxtemperature.TemperatureRecordMapper;
 
 import java.io.IOException;
 
