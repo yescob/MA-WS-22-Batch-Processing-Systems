@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>at.fhv.fn</groupId>
-    <artifactId>hadoop-max-temperature</artifactId>
+    <artifactId>hadoop-assignments</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -58,7 +58,7 @@
     </dependencies>
 
     <build>
-        <finalName>hadoop-max-temperature</finalName>
+        <finalName>hadoop-assignments</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
