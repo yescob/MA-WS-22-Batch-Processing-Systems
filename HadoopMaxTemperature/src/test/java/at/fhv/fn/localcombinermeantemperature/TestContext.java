@@ -1,29 +1,32 @@
-package at.fhv.fn.maxtemperature;
+package at.fhv.fn.localcombinermeantemperature;
 
+import at.fhv.fn.meantemperature.LocalSum;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.types.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public enum TestContext {
     INSTANCE;
 
     private String mapInputFileName() {
-        return "/maxTemperature/meantemperaturetest-input.txt";
+        return "/meantemperature/meantemperaturetest-input.txt";
     }
 
     private String reduceInputFileName() {
-        return "/maxTemperature/meantemperaturetest-reducer-input.txt";
+        return "/meantemperature/meantemperaturetest-combined-reducer-input.txt";
     }
 
     private String mapOutputFileName() {
-        return "/maxTemperature/meantemperaturetest-mapper-output.txt";
+        return "/meantemperature/meantemperaturetest-combined-mapper-output.txt";
     }
 
     private String reduceOutputFileName() {
-        return "/maxTemperature/meantemperaturetest-reducer-output.txt";
+        return "/meantemperature/meantemperaturetest-reducer-output.txt";
     }
 
     private List<Pair<Text,IntWritable>> getOutput(String fileName){
@@ -50,27 +53,43 @@ public enum TestContext {
         return input;
     }
 
-    public List<Pair<Text,IntWritable>> expectedMapOutput() {
-        return getOutput(mapOutputFileName());
-    }
+    public List<Pair<Text,LocalSum>> expectedMapOutput() {
+        Scanner scanner = new Scanner(TestContext.class.getResourceAsStream(mapOutputFileName()));
 
-    public List<Pair<Text,List<IntWritable>>> reduceInput() {
-        Scanner scanner = new Scanner(TestContext.class.getResourceAsStream(reduceInputFileName()));
-
-        List<Pair<Text, List<IntWritable>>> result = new ArrayList<>();
+        List<Pair<Text, LocalSum>> result = new ArrayList<>();
 
         while(scanner.hasNext()){
             String keyValue[] = scanner.nextLine().split(",");
 
             String year = keyValue[0];
 
-            List<IntWritable> temperatures = new ArrayList<>();
+            String localSum[] = keyValue[1].split(";");
+            String total = localSum[0];
+            String count = localSum[1];
+            result.add(new Pair<>(new Text(year) , new LocalSum(Integer.parseInt(total), Integer.parseInt(count))));
+        }
+        return result;
+    }
+
+    public List<Pair<Text, List<LocalSum>>> reduceInput() {
+        Scanner scanner = new Scanner(TestContext.class.getResourceAsStream(reduceInputFileName()));
+
+        List<Pair<Text, List<LocalSum>>> result = new ArrayList<>();
+
+        while(scanner.hasNext()){
+            String keyValue[] = scanner.nextLine().split(",");
+
+            String year = keyValue[0];
+
+            List<LocalSum> localSums = new ArrayList<>();
             for (int i = 1; i < keyValue.length; i++) {
-                String temperature = keyValue[i];
-                temperatures.add(new IntWritable(Integer.parseInt(temperature)));
+                String localSum[] = keyValue[i].split(";");
+                String total = localSum[0];
+                String count = localSum[1];
+                localSums.add(new LocalSum(Integer.parseInt(total), Integer.parseInt(count)));
             }
 
-            result.add(new Pair<>(new Text(year), temperatures));
+            result.add(new Pair<>(new Text(year), localSums));
         }
         return result;
     }
