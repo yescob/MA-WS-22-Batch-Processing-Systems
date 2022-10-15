@@ -67,6 +67,8 @@ public class MedianTemperatureTest {
     @Test
     public void testMapReduce() throws IOException {
 
+        mapReduceDriver.withKeyGroupingComparator(new YearTemperatureGroupingComparator());
+
         //Add inputs
         mapReduceDriver.addAll(tc.mapInput());
 
