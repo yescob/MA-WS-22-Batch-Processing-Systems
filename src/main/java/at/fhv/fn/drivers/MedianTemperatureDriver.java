@@ -42,8 +42,8 @@ public class MedianTemperatureDriver extends Configured implements Tool {
         String[] remainingArgs = optionsParser.getRemainingArgs();
 
 
-        if (remainingArgs.length != 2) {
-            System.err.printf("Usage: %s [generic options] <input> <output>\n", getClass().getSimpleName());
+        if (remainingArgs.length != 3) {
+            System.err.printf("Usage: %s [generic options] <input> <output> <percentile>\n", getClass().getSimpleName());
 
             //A utility to help run Tools.
             ToolRunner.printGenericCommandUsage(System.err);
@@ -51,7 +51,16 @@ public class MedianTemperatureDriver extends Configured implements Tool {
 
             System.exit(2);
         }
+        if(Integer.parseInt(remainingArgs[2])<= 0){
+            System.err.printf("Percentile must be greater than 0\n", getClass().getSimpleName());
 
+            //A utility to help run Tools.
+            ToolRunner.printGenericCommandUsage(System.err);
+
+            System.exit(2);
+        }
+
+        conf.set("Percentile", args[2]);
 
         // Create a new Job
         Job job = Job.getInstance(conf, "MedianTemperature");
