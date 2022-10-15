@@ -10,8 +10,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 public class TemperatureSequenceFileMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
 
     //https://www1.ncdc.noaa.gov/pub/data/ish/ish-format-document.pdf 
-    private static final Integer START_POSITION_YEAR = 16;
-    private static final Integer END_POSITION_YEAR = 19;
     private static final Integer START_POSITION_TEMPERATURE = 88;
     private static final Integer END_POSITION_TEMPERATURE = 92;
     private static final Integer POSITION_QUALITY_CODE = 93;
