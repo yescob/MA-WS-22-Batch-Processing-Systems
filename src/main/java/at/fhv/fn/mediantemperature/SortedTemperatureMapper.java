@@ -30,7 +30,7 @@ public class SortedTemperatureMapper extends Mapper<LongWritable, Text, YearTemp
 
         // only consider valid temperature records
         if(!temperature.equals(MISSING_VALUE) && qualityRecord.matches(ALLOWED_QUALITY_NUMBERS_REGEX)){
-            context.write(new YearTemperatureRecord(year, temperature), new IntWritable(temperature));
+            context.write(new YearTemperatureRecord(new Text(year), new IntWritable(temperature)), new IntWritable(temperature));
         }
     }
     
